@@ -68,7 +68,8 @@ function htl_get_currencies() {
 		'THB'  => esc_html__( 'Thai Baht (&#3647;)', 'wp-hotelier' ),
 		'INR'  => esc_html__( 'Indian Rupee (&#8377;)', 'wp-hotelier' ),
 		'TRY'  => esc_html__( 'Turkish Lira (&#8378;)', 'wp-hotelier' ),
-		'RUB'  => esc_html__( 'Russian Rubles', 'wp-hotelier' )
+		'RUB'  => esc_html__( 'Russian Rubles', 'wp-hotelier' ),
+		'CLP'  => esc_html__( 'Chilean Peso (CLP)', 'wp-hotelier' )
 	);
 
 	return apply_filters( 'hotelier_currencies', $currencies );
@@ -158,6 +159,9 @@ function htl_get_currency_symbol( $currency = '' ) {
 			break;
 		case 'TWD' :
 			$currency_symbol = '&#78;&#84;&#36;';
+			break;
+		case 'CLP' :
+			$currency_symbol = 'CLP ';
 			break;
 		default :
 			$currency_symbol = '';

@@ -24,11 +24,11 @@ class HTL_Admin_Calendar {
 	 */
 	public static function output() {
 		// Get weeks
-		$weeks  = ! empty( $_GET[ 'weeks' ] ) ? absint( $_GET[ 'weeks' ] ) : 1;
+		$weeks  = ! empty( $_GET[ 'weeks' ] ) ? absint( $_GET[ 'weeks' ] ) : 4;
 
 		// Sanitize weeks parameter
 		if ( $weeks < 1 || $weeks > 4 ) {
-			$weeks = 1;
+			$weeks = 4;
 		}
 
 		// Get marker date

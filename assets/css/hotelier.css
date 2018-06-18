@@ -713,6 +713,31 @@ WIDGETS
   margin-bottom: 24px;
 }
 
+.room-quantity__input {
+  margin-right: 0 !important;
+}
+
+.add-to-cart-wrapper {
+  float: right;
+}
+
+@media only screen and (min-width: 1200px) {
+  .listing__list {
+    display: inline-flex;
+    padding-left: 0;
+  }
+  .listing__room:first-of-type {
+    margin-left: 0;
+  }
+  .room__price--listing {
+    display: grid;
+  }
+  .listing__room {
+    margin: 0 5px;
+  }
+}
+
+
 /*--------------------------------------------------------------
 >>> PAGE: BOOKING
 ----------------------------------------------------------------
@@ -720,6 +745,32 @@ WIDGETS
 .booking__section,
 .reservation-received__section {
   margin-bottom: 48px;
+}
+
+.booking__section input {
+  float: right;
+}
+
+.booking__section select,
+.booking__section textarea {
+    float: right;
+    padding: 10px;
+    width: 198px;
+    border: 0px;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 22px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #fff;
+    box-sizing: border-box;
 }
 
 .form-row__description {

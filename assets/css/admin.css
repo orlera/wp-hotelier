@@ -805,6 +805,12 @@
 .add-new-reservation-form th strong {
   font-size: 17px;
   font-weight: 700;
+  vertical-align: middle;
+  width: 15%;
+}
+
+.add-new-reservation-form td {
+  width: 35%;
 }
 
 /* reservation meta boxes */
@@ -840,6 +846,34 @@
   text-align: center;
   width: 35px;
   text-decoration: none;
+}
+
+.edit-total {
+  text-align: center;
+  text-decoration: none;
+}
+
+.edit-date, .save-date {
+  float: right;
+  text-align: center;
+  text-decoration: none;
+}
+
+#total-edit, .date-edit {
+  display: none;
+}
+
+input[name='new-total'] {
+  width: 100px;
+}
+
+.new_reservation_currency {
+  float: right;
+  font-weight: bold;
+}
+
+.hotelier-pay-actions {
+  display: none;
 }
 
 #hotelier-reservation-data .edit-address .dashicons,

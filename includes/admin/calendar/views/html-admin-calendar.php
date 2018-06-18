@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 $today     = new Datetime();
 $today     = $today->format( 'Y-m-d' );
 $next_week = clone( $marker );
-$next_week = $next_week->modify( '+7 days' )->format( 'Y-m-d' );
+$next_week = $next_week->modify( '+' . 7 * $weeks . ' days' )->format( 'Y-m-d' );
 $prev_week = clone( $marker );
-$prev_week = $prev_week->modify( '-7 days' )->format( 'Y-m-d' );
+$prev_week = $prev_week->modify( '-' . 7 * $weeks . ' days' )->format( 'Y-m-d' );
 
 ?>
 

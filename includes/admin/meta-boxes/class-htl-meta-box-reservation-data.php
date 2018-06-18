@@ -51,32 +51,28 @@ class HTL_Meta_Box_Reservation_Data {
 			'email' => array(
 				'label'    => esc_html__( 'Email address', 'wp-hotelier' ),
 				'type'     => 'email',
-				'required' => true,
 			),
 			'telephone' => array(
 				'label'         => esc_html__( 'Telephone', 'wp-hotelier' ),
 				'wrapper_class' => 'form-field-last'
 			),
 			'address1' => array(
-				'label'         => esc_html__( 'Address 1', 'wp-hotelier' ),
-				'wrapper_class' => 'form-field-wide'
-			),
-			'address2' => array(
-				'label'         => esc_html__( 'Address 2', 'wp-hotelier' ),
+				'label'         => esc_html__( 'Address', 'wp-hotelier' ),
 				'wrapper_class' => 'form-field-wide'
 			),
 			'city' => array(
 				'label' => esc_html__( 'Town / City', 'wp-hotelier' ),
 			),
-			'postcode' => array(
-				'label'         => esc_html__( 'Postcode / Zip', 'wp-hotelier' ),
-				'wrapper_class' => 'form-field-last'
-			),
-			'state' => array(
-				'label' => esc_html__( 'State / County', 'wp-hotelier' ),
-			),
 			'country' => array(
 				'label'         => esc_html__( 'Country', 'wp-hotelier' ),
+				'wrapper_class' => 'form-field-last',
+				'required'      => true,
+				'type'			=> 'select',
+				'options'		=> htl_country_array()
+			),
+			'internal_notes' => array(
+				'label'         => esc_html__( 'Internal notes', 'wp-hotelier' ),
+				'type'			=> 'textarea',
 				'wrapper_class' => 'form-field-last'
 			)
 		) );
@@ -92,33 +88,7 @@ class HTL_Meta_Box_Reservation_Data {
 				'id'      => 'guest_arrival_time',
 				'label'   => esc_html__( 'Estimated arrival time', 'wp-hotelier' ),
 				'type'    => 'select',
-				'options' => array(
-					'-1' => esc_html__( 'I don\'t know', 'wp-hotelier' ),
-					'0'  => '00:00 - 01:00',
-					'1'  => '01:00 - 02:00',
-					'2'  => '02:00 - 03:00',
-					'3'  => '03:00 - 04:00',
-					'4'  => '04:00 - 05:00',
-					'5'  => '05:00 - 06:00',
-					'6'  => '06:00 - 07:00',
-					'7'  => '07:00 - 08:00',
-					'8'  => '08:00 - 09:00',
-					'9'  => '09:00 - 10:00',
-					'10' => '10:00 - 11:00',
-					'11' => '11:00 - 12:00',
-					'12' => '12:00 - 13:00',
-					'13' => '13:00 - 14:00',
-					'14' => '14:00 - 15:00',
-					'15' => '15:00 - 16:00',
-					'16' => '16:00 - 17:00',
-					'17' => '17:00 - 18:00',
-					'18' => '18:00 - 19:00',
-					'19' => '19:00 - 20:00',
-					'20' => '20:00 - 21:00',
-					'21' => '21:00 - 22:00',
-					'22' => '22:00 - 23:00',
-					'23' => '23:00 - 00:00'
-				)
+				'options' => htl_arrival_times_array()
 			)
 		) );
 	}
@@ -171,6 +141,9 @@ class HTL_Meta_Box_Reservation_Data {
 		<style type="text/css">
 			#post-body-content, #titlediv, .misc-pub-section.misc-pub-post-status, #visibility, #minor-publishing-actions { display:none }
 		</style>
+		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
 		<div class="panel-wrap hotelier">
 			<input name="post_title" type="hidden" value="<?php echo empty( $post->post_title ) ? esc_attr__( 'Reservation', 'wp-hotelier' ) : esc_attr( $post->post_title ); ?>" />
@@ -219,13 +192,27 @@ class HTL_Meta_Box_Reservation_Data {
 
 						<div class="reservation-details">
 							<p>
-								<strong><?php esc_html_e( 'Check-in:', 'wp-hotelier' ) ?></strong>
-								<?php echo esc_html( $reservation->get_formatted_checkin() ); ?>
+								<strong><?php esc_html_e( 'Check-in:', 'wp-hotelier' ) ?></strong>	
+								<span class="date-default" id="checkin-date-default">
+									<?php echo esc_html( $reservation->get_formatted_checkin() ); ?>
+									<a href="#" class="edit-date"><i class="dashicons dashicons-edit"></i></a>
+								</span>
+								<span class="date-edit" id="checkin-date-edit">
+									<input name="checkin-date" class="reservation-date" id="date-from" type="text" placeholder="YYYY-MM-DD" name="from" value="<?php echo esc_attr( $reservation->get_checkin() ); ?>">
+									<a href="#" class="save-date"><i class="dashicons dashicons-yes"></i></a>
+								</span>
 							</p>
 
 							<p>
 								<strong><?php esc_html_e( 'Check-out:', 'wp-hotelier' ) ?></strong>
-								<?php echo esc_html( $reservation->get_formatted_checkout() ); ?>
+								<span class="date-default" id="checkout-date-default">
+									<?php echo esc_html( $reservation->get_formatted_checkout() ); ?>
+									<a href="#" class="edit-date"><i class="dashicons dashicons-edit"></i></a>
+								</span>
+								<span class="date-edit" id="checkout-date-edit">
+									<input name="checkout-date" class="reservation-date" id="date-to" type="text" placeholder="YYYY-MM-DD" name="to" value="<?php echo esc_attr( $reservation->get_checkout() ); ?>">
+									<a href="#" class="save-date"><i class="dashicons dashicons-yes"></i></a>
+								</span>
 							</p>
 
 							<p class="night-stay"><strong><?php printf( esc_html__( '%d-night stay', 'wp-hotelier' ), $reservation->get_nights() ); ?></strong></p>
@@ -273,7 +260,17 @@ class HTL_Meta_Box_Reservation_Data {
 								if ( ! isset( $field[ 'id' ] ) ){
 									$field[ 'id' ] = '_guest_' . $key;
 								}
-								HTL_Meta_Boxes_Helper::text_input( $field );
+								if ( $key == "internal_notes" ) {
+									continue;
+								}
+
+								if ( $field['type'] == 'select') {
+									HTL_Meta_Boxes_Helper::select_input( $field );
+								} else {
+									HTL_Meta_Boxes_Helper::text_input( $field );
+								}
+
+								
 							}
 							?>
 						</div>
@@ -305,6 +302,11 @@ class HTL_Meta_Box_Reservation_Data {
 								<?php echo esc_html( $reservation->get_guest_special_requests() ? $reservation->get_guest_special_requests() : esc_html__( 'None', 'wp-hotelier' ) ); ?>
 							</p>
 
+							<p class="guest-special-requests">
+								<strong><?php esc_html_e( 'Internal notes', 'wp-hotelier' ); ?>:</strong>
+								<?php echo esc_html( $reservation->get_guest_internal_notes() ? $reservation->get_guest_internal_notes() : esc_html__( 'None', 'wp-hotelier' ) ); ?>
+							</p>
+
 							<?php do_action( 'hotelier_reservation_after_guest_special_requets' ); ?>
 
 						</div>
@@ -313,33 +315,7 @@ class HTL_Meta_Box_Reservation_Data {
 							<p class="form-field form-field-wide"><label for="reservation-status"><?php esc_html_e( 'Estimated arrival time', 'wp-hotelier' ) ?></label>
 							<select id="guest-arrival-time" name="guest_arrival_time">
 								<?php
-									$hours = array(
-										'-1' => esc_html__( 'I don\'t know', 'wp-hotelier' ),
-										'0'  => '00:00 - 01:00',
-										'1'  => '01:00 - 02:00',
-										'2'  => '02:00 - 03:00',
-										'3'  => '03:00 - 04:00',
-										'4'  => '04:00 - 05:00',
-										'5'  => '05:00 - 06:00',
-										'6'  => '06:00 - 07:00',
-										'7'  => '07:00 - 08:00',
-										'8'  => '08:00 - 09:00',
-										'9'  => '09:00 - 10:00',
-										'10' => '10:00 - 11:00',
-										'11' => '11:00 - 12:00',
-										'12' => '12:00 - 13:00',
-										'13' => '13:00 - 14:00',
-										'14' => '14:00 - 15:00',
-										'15' => '15:00 - 16:00',
-										'16' => '16:00 - 17:00',
-										'17' => '17:00 - 18:00',
-										'18' => '18:00 - 19:00',
-										'19' => '19:00 - 20:00',
-										'20' => '20:00 - 21:00',
-										'21' => '21:00 - 22:00',
-										'22' => '22:00 - 23:00',
-										'23' => '23:00 - 00:00'
-									);
+									$hours = htl_arrival_times_array();
 
 									foreach ( $hours as $hour => $display ) {
 										echo '<option value="' . esc_attr( $hour ) . '" ' . selected( $hour, $reservation->get_arrival_time(), false ) . '>' . esc_html( $display ) . '</option>';
@@ -348,6 +324,8 @@ class HTL_Meta_Box_Reservation_Data {
 							</select></p>
 
 							<p class="form-field"><label><?php esc_html_e( 'Special requests', 'wp-hotelier' ); ?></label><textarea name="guest_special_requests" class="input-text" rows="7" cols="5"><?php echo esc_html( $reservation->get_guest_special_requests() ); ?></textarea></p>
+
+							<p class="form-field"><label><?php esc_html_e( 'Internal notes', 'wp-hotelier' ); ?></label><textarea name="guest_internal_notes" class="input-text" rows="7" cols="5"><?php echo esc_html( $reservation->get_guest_internal_notes() ); ?></textarea></p>
 						</div>
 					</div>
 				</div>
@@ -368,8 +346,20 @@ class HTL_Meta_Box_Reservation_Data {
 		// Guest special requests
 		$reservation->update_guest_special_requests( sanitize_text_field( $_POST[ 'guest_special_requests' ] ), '', true );
 
+		// Guest internal notes
+		$reservation->update_guest_internal_notes( sanitize_text_field( $_POST[ 'guest_internal_notes' ] ) );
+
 		// Guest estimated arrival time
 		$reservation->set_arrival_time( sanitize_text_field( $_POST[ 'guest_arrival_time' ] ) );
+
+		// Reservation total price
+		$reservation->set_total( sanitize_text_field( str_replace('.', '', $_POST[ 'new-total' ]) * 100 ) );
+
+		// Check-in date
+		$reservation->set_checkin( $_POST[ 'checkin-date' ] );
+
+		// Check-out date
+		$reservation->set_checkout( $_POST[ 'checkout-date' ] );
 	}
 }
 

@@ -197,7 +197,7 @@ class HTL_Reservation {
 		}
 
 		if ( $this->guest_country ) {
-			$address .= $this->guest_country;
+			$address .= htl_country_name($this->guest_country);
 		}
 
 		return apply_filters( 'hotelier_get_formatted_guest_address', $address, $this );
@@ -264,6 +264,33 @@ class HTL_Reservation {
 			wp_update_post( array( 'ID' => $this->id, 'post_excerpt' => $new_requests ) );
 			$this->guest_special_requests = $new_requests;
 		}
+	}
+
+
+	/**
+	 * Return the internal notes.
+	 *
+	 * @return string
+	 */
+	public function get_guest_internal_notes() {
+		$message = $this->guest_internal_notes;
+
+		return apply_filters( 'hotelier_get_guest_internal_notes', $message, $this );
+	}
+
+	/**
+	 * Updates guest internal notes 
+	 *
+	 * @param string $new_notes
+	 */
+	public function update_guest_internal_notes( $new_notes ) {
+		$old_notes = $this->get_guest_internal_notes();
+
+		// Only update if they differ
+		if ( $new_notes !== $old_notes ) {
+			update_post_meta( $this->id, '_guest_internal_notes', sanitize_text_field( $new_notes ) );
+		}
+
 	}
 
 	/**
@@ -957,6 +984,18 @@ class HTL_Reservation {
 	 * @param string $checkin Checkin time
 	 */
 	public function set_checkin( $checkin ) {
+		global $wpdb;
+
+		$wpdb->update(
+			$wpdb->prefix . "hotelier_bookings",
+			array(
+				'checkin' => $checkin,
+			),
+			array(
+				'reservation_id' => $this->id,
+			)
+		);
+		
 		update_post_meta( $this->id, '_guest_checkin', $checkin );
 	}
 
@@ -986,6 +1025,18 @@ class HTL_Reservation {
 	 * @param string $checkout Checkout time
 	 */
 	public function set_checkout( $checkout ) {
+		global $wpdb;
+
+		$wpdb->update(
+			$wpdb->prefix . "hotelier_bookings",
+			array(
+				'checkout' => $checkout,
+			),
+			array(
+				'reservation_id' => $this->id,
+			)
+		);
+
 		update_post_meta( $this->id, '_guest_checkout', $checkout );
 	}
 

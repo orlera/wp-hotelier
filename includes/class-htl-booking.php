@@ -314,7 +314,7 @@ class HTL_Booking {
 						'label'       => esc_html__( 'Email address', 'wp-hotelier' ),
 						'placeholder' => esc_html_x( 'Email address', 'placeholder', 'wp-hotelier' ),
 						'type'        => 'email',
-						'required'    => true,
+						'required'    => false,
 						'class'       => array( 'form-row--wide' ),
 						'validate'    => array( 'email' )
 					),
@@ -322,7 +322,7 @@ class HTL_Booking {
 						'label'       => esc_html__( 'Telephone', 'wp-hotelier' ),
 						'placeholder' => esc_html_x( 'Telephone', 'placeholder', 'wp-hotelier' ),
 						'type'        => 'tel',
-						'required'    => true,
+						'required'    => false,
 						'class'       => array( 'form-row--wide' ),
 						'validate'    => array( 'phone' )
 					),
@@ -330,6 +330,8 @@ class HTL_Booking {
 						'label'       => esc_html__( 'Country', 'wp-hotelier' ),
 						'placeholder' => esc_html_x( 'Country', 'placeholder', 'wp-hotelier' ),
 						'required'    => true,
+						'type'     	  => 'select',
+						'options'     => htl_country_array(),
 						'class'       => array( 'form-row--wide' ),
 					),
 					'address1' => array(
@@ -338,29 +340,11 @@ class HTL_Booking {
 						'required'    => false,
 						'class'       => array( 'form-row--wide' )
 					),
-					'address2' => array(
-						'placeholder' => esc_html_x( 'Apartment, suite, unit etc. (optional)', 'placeholder', 'wp-hotelier' ),
-						'required'    => false,
-						'class'       => array( 'form-row--wide' )
-					),
 					'city' => array(
 						'label'       => esc_html__( 'Town / City', 'wp-hotelier' ),
 						'placeholder' => esc_html_x( 'Town / City', 'placeholder', 'wp-hotelier' ),
 						'required'    => false,
 						'class'       => array( 'form-row--wide' )
-					),
-					'state' => array(
-						'label'       => esc_html__( 'State / County', 'wp-hotelier' ),
-						'placeholder' => esc_html_x( 'State / County', 'placeholder', 'wp-hotelier' ),
-						'required'    => false,
-						'class'       => array( 'form-row--first' )
-					),
-					'postcode' => array(
-						'label'       => esc_html__( 'Postcode / Zip', 'wp-hotelier' ),
-						'placeholder' => esc_html_x( 'Postcode / Zip', 'placeholder', 'wp-hotelier' ),
-						'required'    => false,
-						'class'       => array( 'form-row--last' ),
-						'clear'       => true
 					)
 				)
 			)
@@ -375,33 +359,7 @@ class HTL_Booking {
 						'required' => false,
 						'class'    => array( 'form-row--wide form-row--arrival-time' ),
 						'type'     => 'select',
-						'options'  => array(
-							'-1' => esc_html__( 'I don\'t know', 'wp-hotelier' ),
-							'0'  => '00:00 - 01:00',
-							'1'  => '01:00 - 02:00',
-							'2'  => '02:00 - 03:00',
-							'3'  => '03:00 - 04:00',
-							'4'  => '04:00 - 05:00',
-							'5'  => '05:00 - 06:00',
-							'6'  => '06:00 - 07:00',
-							'7'  => '07:00 - 08:00',
-							'8'  => '08:00 - 09:00',
-							'9'  => '09:00 - 10:00',
-							'10' => '10:00 - 11:00',
-							'11' => '11:00 - 12:00',
-							'12' => '12:00 - 13:00',
-							'13' => '13:00 - 14:00',
-							'14' => '14:00 - 15:00',
-							'15' => '15:00 - 16:00',
-							'16' => '16:00 - 17:00',
-							'17' => '17:00 - 18:00',
-							'18' => '18:00 - 19:00',
-							'19' => '19:00 - 20:00',
-							'20' => '20:00 - 21:00',
-							'21' => '21:00 - 22:00',
-							'22' => '22:00 - 23:00',
-							'23' => '23:00 - 00:00'
-						)
+						'options'  => htl_arrival_times_array()
 					),
 					'special_requests' => array(
 						'label'    => esc_html__( 'Special requests', 'wp-hotelier' ),

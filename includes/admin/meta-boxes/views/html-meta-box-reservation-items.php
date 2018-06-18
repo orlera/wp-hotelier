@@ -102,11 +102,19 @@ $line_items = $reservation->get_items();
 
 		<tr class="total">
 			<td class="label"><?php esc_html_e( 'Balance due', 'wp-hotelier' ); ?>:</td>
-			<td class="total">
+			<td class="total" id="total-default">
+				<a href="#" class="edit-total edit-total-icon"><i class="dashicons dashicons-edit"></i></a>
 				<?php
 				$reservation_balance_due = wp_kses_post( $reservation->get_formatted_balance_due() );
 
 				echo ( $reservation->get_status() == 'refunded' ) ? '<del>' . $reservation_balance_due . '</del>' : $reservation_balance_due;
+				?>
+			</td>
+			<td class="total" id="total-edit">
+				<a href="#" class="edit-total save-total-icon"><i class="dashicons dashicons-yes"></i></a>
+				<?php
+				$reservation_balance_due =  $reservation->get_balance_due() / 100;
+				echo ( '<input type="number" class="new-total" name="new-total" value="' . $reservation_balance_due . '">' );
 				?>
 			</td>
 		</tr>

@@ -58,6 +58,7 @@ $all_reservations = htl_get_all_reservations( $start_range, $end_range );
 									<?php
 									$checkin      = new DateTime( $reservation[ 'checkin' ]);
 									$checkout     = new DateTime( $reservation[ 'checkout' ]);
+
 									$initial_date = clone( $begin );
 									$initial_date = $initial_date->modify( '-1 day' );
 									$duration     = $checkin->diff( $checkout );
@@ -110,65 +111,52 @@ $all_reservations = htl_get_all_reservations( $start_range, $end_range );
 											}
 										}
 									}
+
 								} ?>
 
-								<?php
-								foreach ($rows as $row) : ?>
+								<?php foreach ($rows as $row) : ?>
 									<tr class="bc__row bc__row--week bc__row--bookings" data-room="<?php echo absint( $room_id ); ?>">
 										<?php
-
 										foreach ( $row as $index => $cell ) {
+											$class = '';
+
+											if ($index % 2 != 0) {
+												$class .= ' bc__cell--first';
+											}
+
 											if ( $index <= $weeks * 7 ) {
 												if ( is_array( $cell ) ) {
-													$colspan = $index == 0 || $index == $weeks * 7 ? $cell[ 'size' ] - 1 : $cell[ 'size' ];
 
-													$class = '';
-
-													if ( $index == 0 ) {
-														$class .= ' bc__day-booked--past-week';
-
-														if ( $cell[ 'size' ] < 3 ) {
-															$class .= ' bc__day-booked--hidden';
+													$colspan = min( $cell['size'] / 2, $weeks * 7 - $index + 1 );
+													if ($index == 0) {
+														if ($colspan == 1) {
+															continue;
 														}
+														$colspan -= 1;
 													}
-
-													if ( $index + $cell[ 'size' ] / 2 > $weeks * 7  ) {
-														$colspan = 2 * ( $weeks * 7 - $index ) + 1;
-														$class .= ' bc__day-booked--next-week';
-
-														if ( $cell[ 'size' ] < 3 ) {
-															$class .= ' bc__day-booked--hidden';
-														}
-													}
-
-													if ( $index == 0 && $cell[ 'size' ] > 2 * $weeks * 7 ) {
-														$colspan = 2 * $weeks * 7;
-													}
+													$reservation = htl_get_reservation( $cell[ 'id' ] );
+													$arrival_time = htl_arrival_time($reservation->get_arrival_time());
+													$guest_message = $reservation->guest_special_requests != '' ? ' - Guest message: ' . $reservation->guest_special_requests : '';
 
 													echo '<td colspan="' . absint( $colspan ) . '" data-status="' . esc_attr( $cell[ 'status' ] ) . '" data-room="' . esc_attr( $room_id ) . '" class="bc__cell bc__cell--data bc__cell--day bc__day-booked' . esc_attr( $class ) . '">
-															<a href="' . esc_url( get_edit_post_link( $cell[ 'id' ] ) ) . '" class="bc__reservation-link hastip" title="' . esc_attr( get_the_title( $cell[ 'id' ] ) ) . '"><span class="bc__reservation-label">' . get_the_title( $cell[ 'id' ] ) . '</span></a>
+															<a href="' . esc_url( get_edit_post_link( $cell[ 'id' ] ) ) . '" class="bc__reservation-link hastip" title="' . $reservation->get_formatted_guest_full_name() . ', arriving at: ' . $arrival_time . $guest_message . '"><span class="bc__reservation-label">' . $reservation->get_formatted_guest_full_name() . '</span></a>
 														</td>';
-												} else if ( $cell == false ) {
-													$class = '';
-
-													if ( $index == 0 ) {
-														$class = ' bc__cell--first';
-													}
-
+												} elseif ( $cell != true && $index != 0 ) {
 													echo '<td class="bc__cell bc__cell--data bc__cell--day' . esc_attr( $class ) . '"></td>';
-													if ( $index != 0 && $index != $weeks * 7 ) {
-														echo '<td class="bc__cell bc__cell--data bc__cell--day bc__cell--first"></td>';
-													}
 												}
 											}
-										} ?>
+										}
+										?>
 									</tr>
 								<?php endforeach; ?>
 							<?php else : ?>
 								<tr class="bc__row bc__row--week bc__row--bg" data-room="<?php echo absint( $room_id ); ?>">
-									<?php foreach ( $daterange as $date ) : ?>
-										<td class="bc__cell bc__cell--data bc__cell--bg bc__cell--day bc__cell--first">&nbsp;</td>
-										<td class="bc__cell bc__cell--data bc__cell--bg bc__cell--day">&nbsp;</td>
+									<?php foreach ( $daterange as $index => $date ) : ?>
+										<?php if ( $index % 2 == 0 ) : ?>
+											<td class="bc__cell bc__cell--data bc__cell--bg bc__cell--day bc__cell--first">&nbsp;</td>
+										<?php else : ?>
+											<td class="bc__cell bc__cell--data bc__cell--bg bc__cell--day">&nbsp;</td>
+										<?php endif; ?>
 									<?php endforeach; ?>
 								</tr>
 							<?php endif; ?>
