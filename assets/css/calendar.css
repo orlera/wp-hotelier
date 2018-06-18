@@ -146,6 +146,10 @@
   margin: 0;
 }
 
+.bc__row--header {
+  line-height: 0.5em;
+}
+
 .bc__cell {
   border-bottom: 1px solid #dedede;
   border-top: 1px solid #dedede;
@@ -178,10 +182,6 @@
   padding: 0 0.5em;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-}
-
-.bc__row--header {
-  line-height: 0.5em;
 }
 
 .bc__room-link {
