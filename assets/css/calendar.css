@@ -1,3 +1,21 @@
+.calendar-title {
+  display: inline;
+}
+
+.add-new-reservation-bagde {
+  margin-left: 10px;
+  border-radius: 8px;
+  background-color: #bcbec1;
+  color: white;
+  text-decoration: none;
+  padding: 2px;
+}
+
+.add-new-reservation-bagde:hover {
+  color: #bcbec1;
+  background-color: white;
+}
+
 .bc {
   margin-top: 0;
   background-color: #fff;
