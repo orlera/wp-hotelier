@@ -1,11 +1,14 @@
 .bc {
-  margin-top: 3em;
-  padding: 1em;
+  margin-top: 0;
   background-color: #fff;
 }
 
+.booking-calendar ul {
+  margin-bottom: 0;
+}
+
 .bc-filter {
-  margin-bottom: 50px;
+  margin: 0;
 }
 
 .bc-filter__item {
@@ -171,10 +174,14 @@
 }
 
 .bc__cell--room-name {
-  width: 200px;
-  padding: 0.5em;
+  width: 110px;
+  padding: 0 0.5em;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+.bc__row--header {
+  line-height: 0.5em;
 }
 
 .bc__room-link {
@@ -208,7 +215,6 @@
 
 .bc__cell--day {
   border: 0;
-  height: 50px;
 }
 
 .bc__cell--first {
@@ -217,7 +223,7 @@
 
 .bc__day-booked {
   position: relative;
-  height: 50px;
+  height: 35px;
 }
 
 .bc__day-booked:after {
@@ -313,7 +319,7 @@
   position: relative;
   z-index: 4;
   height: 100%;
-  line-height: 50px;
+  line-height: 35px;
   text-align: center;
   text-decoration: none;
   color: #fff;
