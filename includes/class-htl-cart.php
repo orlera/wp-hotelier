@@ -5,7 +5,7 @@
  * @author   Benito Lopez <hello@lopezb.com>
  * @category Class
  * @package  Hotelier/Classes
- * @version  1.5.0
+ * @version  1.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -71,6 +71,20 @@ class HTL_Cart {
 	public $required_deposit;
 
 	/**
+	 * Total cart tax.
+	 *
+	 * @var int
+	 */
+	public $tax_total;
+
+	/**
+	 * Total cart without tax.
+	 *
+	 * @var int
+	 */
+	public $subtotal;
+
+	/**
 	 * Cart grand total.
 	 *
 	 * @var int
@@ -85,6 +99,8 @@ class HTL_Cart {
 	public $cart_session_data = array(
 		'cart_contents_total' => 0,
 		'required_deposit'    => 0,
+		'subtotal'            => 0,
+		'tax_total'           => 0,
 		'total'               => 0
 	);
 
@@ -435,10 +451,22 @@ class HTL_Cart {
 			$this->cart_contents[ $cart_item_key ][ 'total' ] = $line_total;
 		}
 
+		// Subtotal
+		$this->subtotal = apply_filters( 'hotelier_calculated_subtotal', $this->cart_contents_total, $this );
+
+		// Calculate taxes
+		$this->tax_total        = htl_is_tax_enabled() ? htl_calculate_tax( $this->cart_contents_total ) : 0;
+
+		// Taxes on deposits
+		if ( htl_is_deposit_tax_enabled() ) {
+			$this->required_deposit = $this->required_deposit + htl_calculate_tax( $this->required_deposit );
+		}
+
 		// Allow plugins to hook and alter totals before final total is calculated
 		do_action( 'hotelier_calculate_totals', $this );
 
-		$this->total = apply_filters( 'hotelier_calculated_total', $this->cart_contents_total, $this );
+		$total       = $this->cart_contents_total + htl_calculate_tax( $this->cart_contents_total );
+		$this->total = apply_filters( 'hotelier_calculated_total', $total, $this );
 
 		do_action( 'hotelier_after_calculate_totals', $this );
 
@@ -608,6 +636,24 @@ class HTL_Cart {
 	}
 
 	/**
+	 * Gets subtotal (after calculation).
+	 *
+	 * @return int price
+	 */
+	public function get_subtotal() {
+		return apply_filters( 'hotelier_cart_subtotal', $this->subtotal );
+	}
+
+	/**
+	 * Gets tax total.
+	 *
+	 * @return int price
+	 */
+	public function get_tax_total() {
+		return apply_filters( 'hotelier_cart_tax_total', $this->tax_total );
+	}
+
+	/**
 	 * Gets the required deposit (after calculation).
 	 *
 	 * @return int price
@@ -683,6 +729,32 @@ class HTL_Cart {
 		}
 
 		return $is_cancellable;
+	}
+
+	/**
+	 * Returns a specific item in the cart.
+	 *
+	 * @param string $item_key Cart item key.
+	 * @return array Item data
+	 */
+	public function get_cart_item( $item_key ) {
+		return isset( $this->cart_contents[ $item_key ] ) ? $this->cart_contents[ $item_key ] : array();
+	}
+
+	/**
+	 * Remove a cart item.
+	 *
+	 * @param  string $cart_item_key Cart item key to remove from the cart.
+	 * @return bool
+	 */
+	public function remove_cart_item( $cart_item_key ) {
+		if ( isset( $this->cart_contents[ $cart_item_key ] ) ) {
+			unset( $this->cart_contents[ $cart_item_key ] );
+
+			return true;
+		}
+
+		return false;
 	}
 }
 

@@ -6,7 +6,7 @@
  *
  * @author  Benito Lopez <hello@lopezb.com>
  * @package Hotelier/Templates
- * @version 1.5.0
+ * @version 1.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -55,6 +55,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<span class="reservation-table__room-non-cancellable"><?php echo esc_html_e( 'Non-refundable', 'wp-hotelier' ); ?></span>
 								<?php endif; ?>
 
+								<?php
+									echo apply_filters( 'hotelier_cart_item_remove_link', sprintf(
+										'<a href="%s" class="reservation-table__room-remove remove button">%s</a>',
+										esc_url( htl_get_cart_remove_url( $cart_item_key ) ),
+										esc_html__( 'Remove', 'wp-hotelier' )
+									), $cart_item_key );
+								?>
+
 								<?php do_action( 'hotelier_reservation_table_guests', $_room, $item_key, $cart_item[ 'quantity' ] ); ?>
 							</td>
 
@@ -84,6 +92,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tbody>
 		<tfoot class="reservation-table__footer">
 			<?php
+				if ( htl_is_tax_enabled() && htl_get_tax_rate() > 0 ) : ?>
+
+					<tr class="reservation-table__row reservation-table__row--footer">
+						<th colspan="2" class="reservation-table__label reservation-table__label--subtotal"><?php esc_html_e( 'Subtotal:', 'wp-hotelier' ); ?></th>
+						<td class="reservation-table__data reservation-table__data--subtotal"><strong><?php echo htl_cart_formatted_subtotal(); ?></strong></td>
+					</tr>
+
+					<tr class="reservation-table__row reservation-table__row--footer">
+						<th colspan="2" class="reservation-table__label reservation-table__label--tax-total"><?php esc_html_e( 'Tax total:', 'wp-hotelier' ); ?></th>
+						<td class="reservation-table__data reservation-table__data--tax-total"><strong><?php echo htl_cart_formatted_tax_total(); ?></strong></td>
+					</tr>
+
+				<?php endif;
+
 				if ( HTL()->cart->needs_payment() ) : ?>
 
 					<tr class="reservation-table__row reservation-table__row--footer">
