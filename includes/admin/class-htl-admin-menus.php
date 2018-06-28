@@ -33,6 +33,7 @@ class HTL_Admin_Menus {
 		}
 
 		add_action( 'admin_menu', array( $this, 'admin_logs' ), 50 );
+        add_action( 'admin_menu', array( $this, 'admin_stats' ), 60 );
 	}
 
 	/**
@@ -63,6 +64,13 @@ class HTL_Admin_Menus {
 		add_submenu_page( 'hotelier-settings', esc_html__( 'Logs', 'wp-hotelier' ),  esc_html__( 'Logs', 'wp-hotelier' ) , 'manage_hotelier', 'hotelier-logs', array( $this, 'log_page' ) );
 	}
 
+	/*
+    * Add stats page
+    */
+    public function admin_stats() {
+        add_submenu_page( 'hotelier-settings', esc_html__( 'Stats', 'wp-hotelier' ),  esc_html__( 'Stats', 'wp-hotelier' ) , 'manage_hotelier', 'hotelier-stats', array( $this, 'stats_page' ) );
+    }
+
 	/**
 	 * Init the 'Log' page
 	 */
@@ -90,6 +98,14 @@ class HTL_Admin_Menus {
 	public function addons_page() {
 		HTL_Admin_Addons::output();
 	}
+
+    /**
+    * Init the 'Stats' page
+    */
+    public function stats_page() {
+        HTL_Admin_Stats::output();
+    }
+
 }
 
 endif;

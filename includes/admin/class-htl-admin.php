@@ -41,6 +41,7 @@ class HTL_Admin {
 		include_once( 'calendar/class-htl-admin-calendar.php' );
 		include_once( 'settings/class-htl-admin-logs.php' );
 		include_once( 'addons/class-htl-admin-addons.php' );
+        include_once( 'stats/class-htl-admin-stats.php' );
 	}
 
 	/**
