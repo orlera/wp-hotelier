@@ -45,6 +45,9 @@ class HTL_Admin_Scripts {
 		// Tipsy
 		wp_register_style( 'tipsy-css', HTL_PLUGIN_URL . 'assets/css/tipsy.css', array(), HTL_VERSION );
 
+		// TabellaJS
+		wp_register_style( 'tabella-css', HTL_PLUGIN_URL . 'assets/css/tabella/tabella.css', array() );
+
 		if ( in_array( $screen->id, HTL_Admin_Functions::get_screen_ids() ) ) {
 
 			if ( $screen->id != $prefix . '_hotelier-calendar' ) {
@@ -74,7 +77,7 @@ class HTL_Admin_Scripts {
 
         // Stats page style
         if ( $screen->id == $prefix . '_hotelier-stats' ) {
-            wp_enqueue_style( 'hotelier_stats_styles', HTL_PLUGIN_URL . 'assets/css/stats.css', array(), HTL_VERSION );
+            wp_enqueue_style( 'hotelier_stats_styles', HTL_PLUGIN_URL . 'assets/css/stats.css', array('tabella-css') );
         }
 
 	}
@@ -97,6 +100,7 @@ class HTL_Admin_Scripts {
 		wp_register_script( 'htl-admin-settings', HTL_PLUGIN_URL . 'assets/js/admin/settings' . $suffix . '.js', array( 'jquery' ), HTL_VERSION );
 		wp_register_script( 'htl-admin-meta-boxes', HTL_PLUGIN_URL . 'assets/js/admin/meta-boxes' . $suffix . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-tipsy' ), HTL_VERSION );
 		wp_register_script( 'jquery-tipsy', HTL_PLUGIN_URL . 'assets/js/lib/jquery-tipsy/jquery-tipsy' . $suffix . '.js', array( 'jquery' ), HTL_VERSION );
+		wp_register_script( 'tabella-js', HTL_PLUGIN_URL . 'assets/js/lib/tabellajs/tabella' . $suffix . '.js');
 
 		// Admin settings
 		if ( $screen->id == 'toplevel_page_hotelier-settings' ) {
@@ -149,7 +153,7 @@ class HTL_Admin_Scripts {
 
         // Stats page style
         if ( $screen->id == $prefix . '_hotelier-stats' ) {
-            wp_enqueue_script( 'htl-admin-stats', HTL_PLUGIN_URL . 'assets/js/admin/stats' . $suffix . '.js', array( 'jquery', 'jquery-tipsy' ), HTL_VERSION );
+            wp_enqueue_script( 'htl-admin-stats', HTL_PLUGIN_URL . 'assets/js/admin/stats' . $suffix . '.js', array( 'jquery', 'jquery-tipsy', 'tabella-js'), HTL_VERSION );
         }
 	}
 

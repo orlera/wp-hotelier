@@ -36,4 +36,6 @@ $all_reservations = htl_get_all_reservations( $from->format('Y-m-d'), $to->forma
             </tr>
         </table>
     </form>
+
+    <?php include_once( 'html-admin-stats-table.php' ); ?>
 </div>
