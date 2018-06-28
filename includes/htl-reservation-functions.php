@@ -113,7 +113,7 @@ function htl_update_reservation( $args ) {
  */
 function htl_get_reservation_statuses() {
 	$reservation_statuses = array(
-		'htl-completed'  => esc_html_x( 'Confirmed & Paid', 'Reservation status', 'wp-hotelier' ),
+		'htl-completed'  => esc_html_x( 'Confirmed & paid', 'Reservation status', 'wp-hotelier' ),
 		'htl-confirmed'  => esc_html_x( 'Confirmed', 'Reservation status', 'wp-hotelier' ),
 		'htl-pending'    => esc_html_x( 'Pending', 'Reservation status', 'wp-hotelier' ),
 		'htl-cancelled'  => esc_html_x( 'Cancelled', 'Reservation status', 'wp-hotelier' ),
