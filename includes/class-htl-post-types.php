@@ -125,12 +125,12 @@ class HTL_Post_Types {
 	 */
 	public function register_post_status() {
 		register_post_status( 'htl-pending', array(
-			'label'                     => esc_html_x( 'Pending Payment', 'Reservation status', 'wp-hotelier' ),
+			'label'                     => esc_html_x( 'Pending', 'Reservation status', 'wp-hotelier' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'wp-hotelier' )
+			'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'wp-hotelier' )
 		) );
 		register_post_status( 'htl-on-hold', array(
 			'label'                     => esc_html_x( 'On Hold', 'Reservation status', 'wp-hotelier' ),
@@ -149,12 +149,12 @@ class HTL_Post_Types {
 			'label_count'               => _n_noop( 'Confirmed <span class="count">(%s)</span>', 'Confirmed <span class="count">(%s)</span>', 'wp-hotelier' )
 		) );
 		register_post_status( 'htl-completed', array(
-			'label'                     => esc_html_x( 'Completed', 'Reservation status', 'wp-hotelier' ),
+			'label'                     => esc_html_x( 'Confirmed & Paid', 'Reservation status', 'wp-hotelier' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'wp-hotelier' )
+			'label_count'               => _n_noop( 'Confirmed & Paid <span class="count">(%s)</span>', 'Confirmed & Paid <span class="count">(%s)</span>', 'wp-hotelier' )
 		) );
 		register_post_status( 'htl-cancelled', array(
 			'label'                     => esc_html_x( 'Cancelled', 'Reservation status', 'wp-hotelier' ),
