@@ -71,6 +71,12 @@ class HTL_Admin_Scripts {
 		if ( $screen->id == $prefix . '_hotelier-addons' ) {
 			wp_enqueue_style( 'hotelier_addons_styles', HTL_PLUGIN_URL . 'assets/css/addons.css', array(), HTL_VERSION );
 		}
+
+        // Stats page style
+        if ( $screen->id == $prefix . '_hotelier-stats' ) {
+            wp_enqueue_style( 'hotelier_stats_styles', HTL_PLUGIN_URL . 'assets/css/stats.css', array(), HTL_VERSION );
+        }
+
 	}
 
 	/**
