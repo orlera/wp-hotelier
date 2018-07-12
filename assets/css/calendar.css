@@ -2,6 +2,10 @@
   display: inline;
 }
 
+#ui-datepicker-div {
+  z-index: 5 !important;
+}
+
 .add-new-reservation-bagde {
   margin-left: 10px;
   border-radius: 8px;
