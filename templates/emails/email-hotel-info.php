@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<td style="text-align:left;font-size:13px;line-height:17px;color:#999999;font-family:Helvetica,Arial;"><strong style="color:#444444;"><?php esc_html_e( 'Telephone:', 'wp-hotelier' ) ?></strong> <a href="tel:<?php echo esc_attr( HTL_Info::get_hotel_telephone() ); ?>" value="<?php echo esc_attr( HTL_Info::get_hotel_telephone() ); ?>" target="_blank" style="color:#5CC8FF"><?php echo esc_html( HTL_Info::get_hotel_telephone() ); ?></a></td>
 </tr>
 <tr>
-	<td style="text-align:left;font-size:13px;line-height:17px;color:#999999;font-family:Helvetica,Arial;"><strong style="color:#444444;"><?php esc_html_e( 'Fax:', 'wp-hotelier' ) ?></strong> <?php echo esc_html( HTL_Info::get_hotel_fax() ); ?></td>
+	<td style="text-align:left;font-size:13px;line-height:17px;color:#999999;font-family:Helvetica,Arial;"><strong style="color:#444444;"><?php esc_html_e( 'WhatsApp:', 'wp-hotelier' ) ?></strong> +56 9 7899 6384</td>
 </tr>
 <tr>
 	<td style="text-align:left;font-size:13px;line-height:17px;color:#999999;font-family:Helvetica,Arial;"><strong style="color:#444444;"><?php esc_html_e( 'Email:', 'wp-hotelier' ) ?></strong> <a href="mailto:<?php echo esc_attr( HTL_Info::get_hotel_email() ); ?>" value="<?php echo esc_attr( HTL_Info::get_hotel_email() ); ?>" target="_blank" style="color:#5CC8FF"><?php echo esc_html( HTL_Info::get_hotel_email() ); ?></a></td>
