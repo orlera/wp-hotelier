@@ -422,6 +422,103 @@ function htl_get_all_reservations( $checkin, $checkout ) {
 }
 
 /**
+ * Gets the reservation statistics for a time period.
+ *
+ * @access public
+ * @param string $checkin
+ * @param string $checkout
+ * @return array ()
+ */
+function htl_get_reservation_stats( $checkin, $checkout ) {
+	$stats = array(	'from' => 'date',
+					'to' => 'undefined',
+					'currency' => 'CLP',
+					'tableHeader' => array(),
+					'rows' => array()
+	);
+
+	$reservations = htl_get_reservations($checkin, $checkout);
+
+	$endrange = new DateTime($checkout);
+	$endrange = $endrange->modify('+1 day');
+	$startrange = new DateTime($checkin);
+
+	$interval = new DateInterval('P1D');
+	$daterange = new DatePeriod($startrange, $interval, $endrange);
+
+	foreach ($daterange as $date) {
+		$tableHeaderItem = array($date->format('Y-m-d'));
+		array_push($stats['tableHeader'], $tableHeaderItem);
+		foreach ($reservations as $id => $reservation) {
+			$reservation_checkin = new DateTime($reservation['checkin']);
+			$reservation_checkout = new DateTime($reservation['checkout']);
+			if ($date < $reservation_checkout && $date >= $reservation_checkin) {
+				echo($date->format('Y-m-d') . " - " . $reservation['reservation_id']);
+				echo('</br>');
+			}
+		}
+
+	}
+	array_push($stats['tableHeader'], array('Total'));
+	
+	foreach ($reservations as $id => $reservation) {
+	    $guest_total_qty = 0;
+	    $res = new HTL_Reservation($reservation['reservation_id']);
+	    echo ("reservation_id: " . $reservation['reservation_id'] . " - ");
+	    echo ("checkin: " . $reservation['checkin'] . " - ");
+	    echo ("checkout: " . $reservation['checkout'] . " - ");
+	    echo ("country: " . htl_country_name($res->guest_country) . " - ");
+	    echo ("price: " . $res->get_reservation_currency() . " " . $res->get_total() / 100);
+	    echo ('</br>');
+	    $reservation_items = $res->get_items();
+
+	    //var_dump($reservation_items);
+
+	    $checkin_date = new DateTime($reservation['checkin']);
+	    $checkout_date = new DateTime($reservation['checkout']);
+
+	    $nights = $checkin_date->diff($checkout_date)->days;
+
+	    foreach ($reservation_items as $key => $reservation_item) {
+	        echo ("    room: " . $reservation_item['name'] . " - ");
+	        echo ("    guests: " . $reservation_item['qty']);
+	        echo ('</br>');
+	        $guest_total_qty += $reservation_item['qty'];
+	    }
+
+	    echo ("Price per person per night: " . $res->get_total() / 100 / $guest_total_qty / $nights);
+
+	    echo ('</br>');
+	    echo ('</br>');
+	    echo ('</br>');
+	    echo ('</br>');
+	}
+
+	echo json_encode($stats);
+
+    echo ('</br>');
+
+	return json_encode($stats);
+}
+
+
+/**
+ * Gets the reservations for a time period.
+ *
+ * @access public
+ * @param string $checkin
+ * @param string $checkout
+ * @return array ()
+ */
+function htl_get_reservations( $checkin, $checkout ) {
+	global $wpdb;
+
+	$sql          = $wpdb->prepare( "SELECT DISTINCT reservation_id, checkin, checkout, status FROM {$wpdb->prefix}hotelier_bookings WHERE %s <= checkout AND %s >= checkin ORDER BY checkin", $checkin, $checkout );
+	$reservations = $wpdb->get_results( $sql, ARRAY_A );
+	return $reservations;
+}
+
+/**
  * Get reservations by guest email.
  *
  * @since 1.6.0
