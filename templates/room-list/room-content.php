@@ -97,7 +97,7 @@ if ( $is_single ) {
 				 *
 				 * @hooked hotelier_template_loop_room_guests - 10
 				 */
-				do_action( 'hotelier_room_list_item_guests' );
+				do_action( 'hotelier_room_list_item_guests', $is_available , $checkin, $checkout );
 			?>
 
 			<?php
