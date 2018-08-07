@@ -60,6 +60,14 @@ $tomorrow = $tomorrow->format( 'Y-m-d' );
 						<td>
 							<input class="date-from" type="text" placeholder="YYYY-MM-DD" name="from" value="<?php echo esc_attr( $today ); ?>">
 						</td>
+						<th scope="row"><?php esc_html_e( 'Arrival Time:', 'wp-hotelier' ); ?></th>
+						<td>
+							<select class="arrival-time" name="guest_arrival_time">
+								<?php foreach(htl_arrival_times_array() as $key => $value) { ?>
+								    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+							  	<?php }?>
+							<select>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Check-out:', 'wp-hotelier' ); ?></th>
@@ -75,10 +83,19 @@ $tomorrow = $tomorrow->format( 'Y-m-d' );
 						$type     = isset( $field[ 'type' ] ) ? $field[ 'type' ] : 'text';
 						$required = isset( $field[ 'required' ] ) ? ' * ' : '';
 						?>
-						<tr>
-							<th scope="row"><?php echo esc_html( $field[ 'label' ] ) . $required ; ?></th>
-							<td><input type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $key ); ?>"></td>
-						</tr>
+
+							<tr>
+								<th scope="row"><?php echo esc_html( $field[ 'label' ] ) . $required ; ?></th>
+									<?php if ($type !== "select") : ?>
+											<td><input type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $key ); ?>"></td>
+									<?php else : ?>
+											<td><select name="<?php echo esc_attr( $key ); ?>">
+												<?php foreach($field['options'] as $key => $value) { ?>
+												    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+											  	<?php }?>
+											</td>
+									<?php endif ?>
+								</tr>
 					<?php endforeach ?>
 				</tbody>
 			</table>
