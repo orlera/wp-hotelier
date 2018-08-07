@@ -378,7 +378,7 @@ class HTL_Admin_New_Reservation {
 			$reservation->set_checkin( self::$checkin );
 			$reservation->set_checkout( self::$checkout );
 			$reservation->set_address( $guest_address );
-			$reservation->set_arrival_time( '-1' );
+			$reservation->set_arrival_time( self::get_form_data_field( 'arrival_time' ) );
 			$reservation->set_booking_method( 'manual-booking' );
 			$reservation->set_subtotal( self::$subtotal );
 			$reservation->set_tax_total( self::$tax_total );
