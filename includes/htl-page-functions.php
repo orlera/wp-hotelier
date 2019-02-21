@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function htl_get_page_id( $page ) {
 	$page = apply_filters( 'hotelier_get_' . $page . '_page_id', get_option( 'hotelier_' . $page . '_page_id' ) );
 
-	return $page ? absint( $page ) : -1;
+	return $page ? absint( pll_get_post($page) ) : -1;
 }
 
 /**

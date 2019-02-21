@@ -140,7 +140,7 @@ class HTL_Booking {
 			$wpdb->query( 'START TRANSACTION' );
 
 			$reservation_data = array(
-				'status'           => 'pending',
+				'status'           => 'completed',
 				'guest_name'       => $this->get_formatted_guest_full_name(),
 				'email'            => $this->get_form_data_field( 'email' ),
 				'special_requests' => $this->get_form_data_field( 'special_requests' ),
@@ -171,7 +171,7 @@ class HTL_Booking {
 					throw new Exception( sprintf( esc_html__( 'Error %d: Unable to create reservation. Please try again.', 'wp-hotelier' ), 400 ) );
 				} else {
 					$reservation_id = $reservation->id;
-					$booking_id = htl_add_booking( $reservation_id, $this->checkin, $this->checkout, 'pending' );
+					$booking_id = htl_add_booking( $reservation_id, $this->checkin, $this->checkout, 'completed' );
 
 					if ( ! $booking_id ) {
 						throw new Exception( sprintf( esc_html__( 'Error %d: Unable to create reservation. Please try again.', 'wp-hotelier' ), 401 ) );

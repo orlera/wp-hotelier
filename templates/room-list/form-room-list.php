@@ -115,6 +115,7 @@ if ( $rooms && $rooms->have_posts() || ( $room_id && $room_id_available ) ) : ?>
 
 	</form>
 
+
 <?php else: ?>
 
 	<?php htl_get_template( 'room-list/no-rooms-available.php' ); ?>

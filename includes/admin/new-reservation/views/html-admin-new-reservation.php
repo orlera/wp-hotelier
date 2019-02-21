@@ -54,6 +54,16 @@ $tomorrow = $tomorrow->format( 'Y-m-d' );
 							</div>
 							<button type="button" class="button button-primary add-new-room"><?php esc_html_e( 'Add another room', 'wp-hotelier' ); ?></button>
 						</td>
+						<th scope="row"><?php _e( 'Reservation status:', 'wp-hotelier' ); ?></th>
+						<td>
+							<select id="reservation-status" name="reservation_status">
+								<?php
+									foreach ( htl_get_reservation_statuses() as $status => $status_name ) {
+										echo '<option value="' . esc_attr( $status ) . '" >' . esc_html( $status_name ) . '</option>';
+									}
+								?>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Check-in:', 'wp-hotelier' ); ?></th>
@@ -62,7 +72,7 @@ $tomorrow = $tomorrow->format( 'Y-m-d' );
 						</td>
 						<th scope="row"><?php esc_html_e( 'Arrival Time:', 'wp-hotelier' ); ?></th>
 						<td>
-							<select class="arrival-time" name="guest_arrival_time">
+							<select class="arrival-time" name="arrival_time">
 								<?php foreach(htl_arrival_times_array() as $key => $value) { ?>
 								    <option value="<?php echo $key ?>"><?php echo $value ?></option>
 							  	<?php }?>
@@ -74,6 +84,11 @@ $tomorrow = $tomorrow->format( 'Y-m-d' );
 						<td>
 							<input class="date-to" type="text" placeholder="YYYY-MM-DD" name="to" value="<?php echo esc_attr( $tomorrow ); ?>">
 						</td>
+
+						<th scope="row"><?php esc_html_e( 'Price (empty for standard rate):', 'wp-hotelier' ); ?></th>
+						<td>
+							<input class="price" type="number" name="price">
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><strong><?php esc_html_e( 'Guest details', 'wp-hotelier' ); ?></strong></th>
@@ -83,17 +98,18 @@ $tomorrow = $tomorrow->format( 'Y-m-d' );
 						$type     = isset( $field[ 'type' ] ) ? $field[ 'type' ] : 'text';
 						$required = isset( $field[ 'required' ] ) ? ' * ' : '';
 						?>
-
 							<tr>
 								<th scope="row"><?php echo esc_html( $field[ 'label' ] ) . $required ; ?></th>
-									<?php if ($type !== "select") : ?>
-											<td><input type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $key ); ?>"></td>
-									<?php else : ?>
-											<td><select name="<?php echo esc_attr( $key ); ?>">
-												<?php foreach($field['options'] as $key => $value) { ?>
-												    <option value="<?php echo $key ?>"><?php echo $value ?></option>
-											  	<?php }?>
-											</td>
+									<?php if ($type == "select") : ?>
+										<td><select name="<?php echo esc_attr( $key ); ?>">
+											<?php foreach($field['options'] as $key => $value) { ?>
+											    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+										  	<?php }?>
+										</td>
+									<?php elseif ($type == "textarea") : ?>
+										<td><textarea cols="30" rows="5" name="<?php echo esc_attr( $key ); ?>"></textarea></td>
+									<?php else: ?>
+										<td><input type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $key ); ?>"></td>
 									<?php endif ?>
 								</tr>
 					<?php endforeach ?>

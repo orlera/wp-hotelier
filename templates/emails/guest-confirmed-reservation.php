@@ -118,9 +118,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         <p style="text-align:left;font-size:10px;line-height:10px;padding-top:5px;padding-bottom:5px;padding-left:25px;padding-right:25px;text-decoration:none;border-radius:10px;display:inline-block;font-family:Helvetica,Arial;">
             You can cancel your reservation and/or change it free of charge up to 2 days prior to your arrival date. If, you cancel within 48 hours of the arrival time you send us or if you do not honor your reservation (no show), you grant us permission to charge you for the total amount of your first night’s reservation.
         </p>
-        <p style="text-align:left;font-size:10px;line-height:10px;padding-top:5px;padding-bottom:5px;padding-left:25px;padding-right:25px;text-decoration:none;border-radius:10px;display:inline-block;font-family:Helvetica,Arial;">
-            You can cancel your reservation and/or change it free of charge up to 2 days prior to your arrival date. If, you cancel within 48 hours of the arrival time you send us or if you do not honor your reservation (no show), you grant us permission to charge you for the total amount of your first night’s reservation.
-        </p>
     </td>
 </tr>
 <?php do_action( 'hotelier_email_footer' ); ?>

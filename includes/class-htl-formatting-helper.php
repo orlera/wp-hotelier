@@ -172,24 +172,36 @@ class HTL_Formatting_Helper {
 
 		// Check if the checkout date is greater than the checkin date
 		if ( $checkin_temp >= $checkout_temp ) {
+			  echo '<script>';
+  echo 'console.log(1)';
+  echo '</script>';
 			return false;
 		}
 
 		if ( ! $force ) {
 			// Check if the checkin date is greater than today
 			if ( $checkin_temp < $curdate ) {
+				echo '<script>';
+  echo 'console.log(2)';
+  echo '</script>';
 				return false;
 			}
 
 			// Check if arrival date is "XX" days from current date
 			$diff = date_diff( $curdate, $checkin_temp );
 			if ( $diff->days < $arrival_date ) {
+				echo '<script>';
+  echo 'console.log(3)';
+  echo '</script>';
 				return false;
 			}
 
 			// Check if arrival date is "XX" months from current date
 			if ( $months_advance !== 0 ) {
 				if ( ( $diff->m + $diff->y*12 ) >= $months_advance ) {
+					echo '<script>';
+  echo 'console.log(4)';
+  echo '</script>';
 					return false;
 				}
 			}
@@ -198,11 +210,20 @@ class HTL_Formatting_Helper {
 			$diff_checkin_checkout = date_diff( $checkin_temp, $checkout_temp )->days;
 
 			if ( ( $minimum_nights && $diff_checkin_checkout < $minimum_nights ) || ( $maximum_nights && $diff_checkin_checkout > $maximum_nights ) ) {
+				echo '<script>';
+  echo 'console.log(5)';
+  echo '</script>';
 				return false;
 			}
 
+			echo '<script>';
+  echo 'console.log(6)';
+  echo '</script>';
 			return apply_filters( 'hotelier_is_valid_checkin_checkout', true, $checkin, $checkout );
 		}
+		echo '<script>';
+  echo 'console.log(7)';
+  echo '</script>';
 
 		return true;
 	}

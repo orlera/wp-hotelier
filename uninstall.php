@@ -47,7 +47,7 @@ if ( ! empty( $hotelier_options[ 'remove_data_uninstall' ] ) ) {
 
 	// Delete cron jobs when uninstalling
 	wp_clear_scheduled_hook( 'hotelier_cancel_pending_reservations' );
-	wp_clear_scheduled_hook( 'hotelier_process_completed_reservations' );
+//	wp_clear_scheduled_hook( 'hotelier_process_completed_reservations' );
 	wp_clear_scheduled_hook( 'hotelier_cleanup_sessions' );
 	wp_clear_scheduled_hook( 'hotelier_check_license_cron' );
 }

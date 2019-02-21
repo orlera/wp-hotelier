@@ -132,29 +132,29 @@ class HTL_Post_Types {
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'wp-hotelier' )
 		) );
-		register_post_status( 'htl-on-hold', array(
-			'label'                     => esc_html_x( 'On Hold', 'Reservation status', 'wp-hotelier' ),
-			'public'                    => true,
-			'exclude_from_search'       => false,
-			'show_in_admin_all_list'    => true,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'wp-hotelier' )
-		) );
-		register_post_status( 'htl-confirmed', array(
+		/*register_post_status( 'htl-on-hold', array(
 			'label'                     => esc_html_x( 'Confirmed', 'Reservation status', 'wp-hotelier' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Confirmed <span class="count">(%s)</span>', 'Confirmed <span class="count">(%s)</span>', 'wp-hotelier' )
-		) );
-		register_post_status( 'htl-completed', array(
+		) );*/
+		register_post_status( 'htl-confirmed', array(
 			'label'                     => esc_html_x( 'Confirmed & Paid', 'Reservation status', 'wp-hotelier' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Confirmed & Paid <span class="count">(%s)</span>', 'Confirmed & Paid <span class="count">(%s)</span>', 'wp-hotelier' )
+		) );
+		register_post_status( 'htl-completed', array(
+			'label'                     => esc_html_x( 'Confirmed', 'Reservation status', 'wp-hotelier' ),
+			'public'                    => true,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Confirmed <span class="count">(%s)</span>', 'Confirmed <span class="count">(%s)</span>', 'wp-hotelier' )
 		) );
 		register_post_status( 'htl-cancelled', array(
 			'label'                     => esc_html_x( 'Cancelled', 'Reservation status', 'wp-hotelier' ),

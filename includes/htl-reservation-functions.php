@@ -50,7 +50,7 @@ function htl_create_reservation( $args = array() ) {
 		$updating                            = false;
 		$reservation_data[ 'post_type' ]     = 'room_reservation';
 		$reservation_data[ 'post_author' ]   = 1;
-		$reservation_data[ 'post_status' ]   = 'htl-pending';
+		$reservation_data[ 'post_status' ]   = 'htl-completed';
 		$reservation_data[ 'ping_status' ]   = 'closed';
 		$reservation_data[ 'post_title' ]    = wp_strip_all_tags( $args[ 'guest_name' ] );
 		$reservation_data[ 'post_parent' ]   = absint( $args[ 'parent' ] );
@@ -113,8 +113,9 @@ function htl_update_reservation( $args ) {
  */
 function htl_get_reservation_statuses() {
 	$reservation_statuses = array(
-		'htl-completed'  => esc_html_x( 'Confirmed & Paid', 'Reservation status', 'wp-hotelier' ),
-		'htl-confirmed'  => esc_html_x( 'Confirmed', 'Reservation status', 'wp-hotelier' ),
+		//'htl-on-hold'  => esc_html_x( 'Confirmed', 'Reservation status', 'wp-hotelier' ),
+		'htl-completed'  => esc_html_x( 'Confirmed', 'Reservation status', 'wp-hotelier' ),
+		'htl-confirmed'  => esc_html_x( 'Confirmed & Paid', 'Reservation status', 'wp-hotelier' ),
 		'htl-pending'    => esc_html_x( 'Pending', 'Reservation status', 'wp-hotelier' ),
 		'htl-cancelled'  => esc_html_x( 'Cancelled', 'Reservation status', 'wp-hotelier' ),
 	);
@@ -149,7 +150,7 @@ function htl_add_booking( $reservation_id, $checkin, $checkout, $status, $force 
 
 	// Check status
 	if ( ! in_array( 'htl-' . $status, array_keys( htl_get_reservation_statuses() ) ) ) {
-		$status = 'pending';
+		$status = 'completed';
 	}
 
 	$wpdb->insert(

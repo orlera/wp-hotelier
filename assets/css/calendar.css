@@ -270,12 +270,16 @@
   right: 0;
 }
 
+[data-status="confirmed"]:after {
+  background-color: #28c96d;
+}
+
 [data-status="completed"]:after {
   background-color: #4786ff;
 }
 
-[data-status="confirmed"]:after {
-  background-color: #28c96d;
+[data-status="on-hold"]:after {
+  background-color: #4786ff;
 }
 
 [data-status="pending"]:after {

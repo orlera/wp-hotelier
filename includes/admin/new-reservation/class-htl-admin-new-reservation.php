@@ -141,6 +141,10 @@ class HTL_Admin_New_Reservation {
 				// Calculate totals
 				self::calculate_totals();
 
+				if (isset($_POST['price']) && $_POST['price'] != '') {
+					self::$total = $_POST['price'] * 100;
+				}
+
 				// Create the reservation
 				$reservation_id = self::create_reservation();
 
@@ -321,7 +325,7 @@ class HTL_Admin_New_Reservation {
 			$wpdb->query( 'START TRANSACTION' );
 
 			$reservation_data = array(
-				'status'           => 'pending',
+				'status'           => substr(self::get_form_data_field('reservation_status'), 4),
 				'guest_name'       => self::get_formatted_guest_full_name(),
 				'email'            => self::get_form_data_field( 'email' ),
 				'special_requests' => self::get_form_data_field( 'special_requests' ),
@@ -334,7 +338,7 @@ class HTL_Admin_New_Reservation {
 				throw new Exception( sprintf( esc_html__( 'Error %d: Unable to create reservation. Please try again.', 'wp-hotelier' ), 400 ) );
 			} else {
 				$reservation_id = $reservation->id;
-				$booking_id = htl_add_booking( $reservation_id, self::$checkin, self::$checkout, 'pending' );
+				$booking_id = htl_add_booking( $reservation_id, self::$checkin, self::$checkout, $reservation_data['status'] );
 
 				if ( ! $booking_id ) {
 					throw new Exception( sprintf( esc_html__( 'Error %d: Unable to create reservation. Please try again.', 'wp-hotelier' ), 401 ) );

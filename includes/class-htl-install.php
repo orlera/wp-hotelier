@@ -222,7 +222,7 @@ class HTL_Install {
 			wp_schedule_single_event( time() + ( absint( $hold_minutes ) * 60 ), 'hotelier_cancel_pending_reservations' );
 		}
 
-		wp_schedule_event( time(), 'daily', 'hotelier_process_completed_reservations' );
+		//wp_schedule_event( time(), 'daily', 'hotelier_process_completed_reservations' );
 		wp_schedule_event( time(), 'twicedaily', 'hotelier_cleanup_sessions' );
 		wp_schedule_event( time(), 'weekly', 'hotelier_check_license_cron' );
 	}

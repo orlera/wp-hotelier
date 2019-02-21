@@ -5,7 +5,7 @@
  * @author   Lollum
  * @category Class
  * @package  Hotelier/Classes
- * @version  1.7.1
+ * @version  1.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -397,7 +397,7 @@ class HTL_Reservation {
 		// Only update if they differ - and ensure post_status is a 'htl' status.
 		if ( $new_status !== $old_status || ! in_array( $this->post_status, array_keys( htl_get_reservation_statuses() ) ) ) {
 
-			// Cancelled/completed/refunded reservations cannot be restored
+			// Cancelled/refunded reservations cannot be restored
 			if ( $old_status == 'cancelled' || $old_status == 'refunded' ) {
 
 				$this->add_reservation_note( trim( $note . ' ' . sprintf( esc_html__( 'Error: Trying to change the status from %1$s to %2$s. %1$s reservations cannot be restored or modified.', 'wp-hotelier' ), htl_get_reservation_status_name( $old_status ), htl_get_reservation_status_name( $new_status ) ) ) );
@@ -443,7 +443,7 @@ class HTL_Reservation {
 		global $wpdb;
 
 		if ( ! in_array( 'htl-' . $status, array_keys( htl_get_reservation_statuses() ) ) ) {
-			$status = 'pending';
+			$status = 'completed';
 		}
 
 		$wpdb->update(
@@ -681,7 +681,7 @@ class HTL_Reservation {
 	 * @return int
 	 */
 	public function get_total() {
-		return absint( apply_filters( 'hotelier_reservation_amount_total', $this->reservation_total, $this ) );
+		return apply_filters( 'hotelier_reservation_amount_total', $this->reservation_total, $this );
 	}
 
 	/**
@@ -747,7 +747,7 @@ class HTL_Reservation {
 	 * @return int
 	 */
 	public function get_deposit() {
-		return absint( apply_filters( 'hotelier_reservation_amount_deposit', $this->reservation_deposit, $this ) );
+		return apply_filters( 'hotelier_reservation_amount_deposit', $this->reservation_deposit, $this );
 	}
 
 	/**
@@ -780,7 +780,7 @@ class HTL_Reservation {
 	 * @return int
 	 */
 	public function get_paid_deposit() {
-		return absint( apply_filters( 'hotelier_reservation_paid_deposit', $this->reservation_paid_deposit, $this ) );
+		return apply_filters( 'hotelier_reservation_paid_deposit', $this->reservation_paid_deposit, $this );
 	}
 
 	/**
@@ -859,7 +859,7 @@ class HTL_Reservation {
 	 * @return int
 	 */
 	public function get_subtotal() {
-		return absint( apply_filters( 'hotelier_reservation_amount_subtotal', $this->reservation_subtotal, $this ) );
+		return apply_filters( 'hotelier_reservation_amount_subtotal', $this->reservation_subtotal, $this );
 	}
 
 	/**
@@ -892,7 +892,7 @@ class HTL_Reservation {
 	 * @return int
 	 */
 	public function get_tax_total() {
-		return absint( apply_filters( 'hotelier_reservation_amount_tax_total', $this->reservation_tax_total, $this ) );
+		return apply_filters( 'hotelier_reservation_amount_tax_total', $this->reservation_tax_total, $this );
 	}
 
 	/**
@@ -912,7 +912,7 @@ class HTL_Reservation {
 	 * @return int
 	 */
 	public function get_balance_due() {
-		$amount = $this->is_marked_as_paid() ? 0 : $this->get_total() - $this->get_paid_deposit() - $this->get_remain_deposit_charge();
+		$amount = $this->is_marked_as_paid() ? 0 : $this->get_total();
 
 		return apply_filters( 'hotelier_reservation_balance_due', $amount, $this );
 	}
