@@ -307,6 +307,7 @@ class HTL_Room {
 	public function has_enough_rooms( $checkin, $checkout, $qty ) {
 		$qty            = absint( $qty );
 		$reserved_rooms = $this->get_reserved_rooms( $checkin, $checkout );
+
 		$pending_rooms  = $this->get_pending_rooms();
 		$has_enough     = false;
 
@@ -329,7 +330,7 @@ class HTL_Room {
 	public function is_available( $checkin, $checkout = false, $qty = 1, $rate_id = false ) {
 		$checkout       = $checkout ? $checkout : $checkin;
 		$is_available   = false;
-
+		
 		if ( $this->has_enough_rooms( $checkin, $checkout, $qty ) && $this->check_min_nights( $checkin, $checkout ) && $this->check_max_nights( $checkin, $checkout ) ) {
 			$is_available = true;
 		}
@@ -347,9 +348,26 @@ class HTL_Room {
 	public function get_reserved_rooms( $checkin, $checkout ) {
 		global $wpdb;
 
-		$sql      = $wpdb->prepare( "SELECT room_id FROM {$wpdb->prefix}hotelier_rooms_bookings rb, {$wpdb->prefix}hotelier_bookings b WHERE rb.reservation_id = b.reservation_id AND rb.room_id = %d AND (%s < b.checkout AND %s > b.checkin) AND b.status <> 'cancelled' AND b.status <> 'refunded' AND b.status <> 'completed'", $this->id, $checkin, $checkout );
-		$result   = $wpdb->get_results( $sql );
-		$count    = count( $result );
+		$sql = $wpdb->prepare( "SELECT room_id, checkin, checkout FROM {$wpdb->prefix}hotelier_rooms_bookings rb, {$wpdb->prefix}hotelier_bookings b WHERE rb.reservation_id = b.reservation_id AND rb.room_id = %d AND (%s < b.checkout AND %s > b.checkin) AND b.status <> 'cancelled' AND b.status <> 'refunded' /*AND b.status <> 'completed'*/", $this->id, $checkin, $checkout );
+		$reservations = $wpdb->get_results( $sql );
+		// Iterate each day to calculate the exact number of reservations
+		$checkin              = new DateTime( $checkin );
+		$checkout             = new DateTime( $checkout );
+		$interval             = new DateInterval( 'P1D' );
+		$daterange            = new DatePeriod( $checkin, $interval ,$checkout );
+		$reserved_rooms_total = array();
+		foreach( $daterange as $date ) {
+			$reserved_rooms = 0;
+			foreach ( $reservations as $reservation ) {
+				$reservation_checkin  = new DateTime( $reservation->checkin );
+				$reservation_checkout = new DateTime( $reservation->checkout );
+				if ( $date >= $reservation_checkin && $date < $reservation_checkout ) {
+					$reserved_rooms++;
+				}
+			}
+			$reserved_rooms_total[] = $reserved_rooms;
+		}
+		$count = max( $reserved_rooms_total );
 
 		return apply_filters( 'hotelier_get_reserved_rooms', $count, $this );
 	}
