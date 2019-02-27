@@ -160,6 +160,15 @@ class HTL_Reservation {
 	}
 
 	/**
+	 * Get the guest's country.
+	 *
+	 * @return string
+	 */
+	public function get_guest_country() {
+		return $this->guest_country;
+	}
+
+	/**
 	 * Get a formatted guest full name.
 	 *
 	 * @return string

@@ -138,9 +138,10 @@ $all_reservations = htl_get_all_reservations( $start_range, $end_range );
 													$arrival_time = htl_arrival_time($reservation->get_arrival_time());
 													$guest_message = $reservation->guest_special_requests != '' ? ' - Guest message: ' . $reservation->guest_special_requests : '';
 													$internal_notes = $reservation->guest_internal_notes != '' ? ' - Internal notes: ' . $reservation->guest_internal_notes : '';
+													$guest_nation = $reservation->get_guest_country();
 
 													echo '<td colspan="' . absint( $colspan ) . '" data-status="' . esc_attr( $cell[ 'status' ] ) . '" data-room="' . esc_attr( $room_id ) . '" class="bc__cell bc__cell--data bc__cell--day bc__day-booked' . esc_attr( $class ) . '">
-															<a href="' . esc_url( get_edit_post_link( $cell[ 'id' ] ) ) . '" class="bc__reservation-link hastip" title="' . $reservation->get_formatted_guest_full_name() . ', arriving at: ' . $arrival_time . $guest_message . $internal_notes . '"><span class="bc__reservation-label">' . $reservation->get_formatted_guest_full_name() . '</span></a>
+															<a href="' . esc_url( get_edit_post_link( $cell[ 'id' ] ) ) . '" class="bc__reservation-link hastip" title="' . $reservation->get_formatted_guest_full_name() . ' (' . $guest_nation . ')' . ', arriving at: ' . $arrival_time . $guest_message . $internal_notes . '"><span class="bc__reservation-label">' . $reservation->get_formatted_guest_full_name() . '</span></a>
 														</td>';
 												} elseif ( $cell != true && $index != 0 ) {
 													echo '<td class="bc__cell bc__cell--data bc__cell--day' . esc_attr( $class ) . '"></td>';
