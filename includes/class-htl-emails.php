@@ -209,6 +209,22 @@ class HTL_Emails {
 	}
 
 	/**
+	 * Prepare and send the customer invoice email on demand.
+	 */
+	public function confirm_reservation( $reservation ) {
+		$email = $this->emails[ 'HTL_Email_Confirmed_Reservation' ];
+		$email->trigger( $reservation );
+	}
+
+	/**
+	 * Prepare and send the customer invoice email on demand.
+	 */
+	public function new_reservation( $reservation ) {
+		$email = $this->emails[ 'HTL_Email_New_Reservation' ];
+		$email->trigger( $reservation );
+	}
+
+	/**
 	 * Show special requests in emails.
 	 *
 	 * @param mixed $reservation

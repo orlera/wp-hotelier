@@ -658,6 +658,10 @@ class HTL_Booking {
 						// No payment was required for reservation
 						$reservation->payment_complete();
 
+						$email = HTL_Emails::instance();
+						$email->confirm_reservation($reservation);
+						$email->new_reservation($reservation);
+
 					} else {
 
 						// Manual booking - Send request
