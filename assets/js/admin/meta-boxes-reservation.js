@@ -12,6 +12,8 @@ jQuery(function ($) {
 			this.datepicker();
 			this.show_edit_date();
 			this.update_date_total();
+			this.show_edit_reservation_room();
+			this.update_reservation_room();
 		},
 
 		edit_guest_fields: function () {
@@ -49,6 +51,37 @@ jQuery(function ($) {
 				} else {
 					$('#total-default').show();
 					$('#total-edit').hide();
+				}
+			});
+		},
+
+		show_edit_reservation_room: function () {
+			$('.edit-room-icon').on('click', function (e) {
+				e.preventDefault();
+
+				$('.name-container-default').hide();
+				$('.qty').hide();
+				$('.room-qty').hide();
+				$('.name-container-edit').show();
+			});
+		},
+
+		update_reservation_room: function () {
+			$('.save-room-icon').on('click', function (e) {
+				e.preventDefault();
+				var name_container_edit = $(this).closest(".name-container-edit");
+				var oldRoom = name_container_edit.prev().find(".room-name")[0].getAttribute("data-room_id") + "-0";
+				var newRoom = $(name_container_edit.find(".add-new-room-row")[0]).find("option:selected").val();
+				//console.log(newRoom);
+				//console.log(oldRoom);
+
+				if (oldRoom !== newRoom) {
+					$('.save-reservation').click();
+				} else {
+					$('.name-container-default').show();
+					$('.qty').show();
+					$('.room-qty').show();
+					$('.name-container-edit').hide();
 				}
 			});
 		},

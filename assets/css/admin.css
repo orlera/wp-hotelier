@@ -848,7 +848,11 @@
   text-decoration: none;
 }
 
-.edit-total {
+.name-container-default, .name-container-edit {
+  display: flex;
+}
+
+.edit-total, .edit-room {
   text-align: center;
   text-decoration: none;
 }
@@ -859,7 +863,7 @@
   text-decoration: none;
 }
 
-#total-edit, .date-edit {
+#total-edit, .date-edit, .name-container-edit {
   display: none;
 }
 

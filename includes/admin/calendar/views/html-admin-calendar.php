@@ -19,7 +19,8 @@ $prev_week = $prev_week->modify( '-' . 7 * $weeks . ' days' )->format( 'Y-m-d' )
 <div class="wrap hotelier">
 
 	<h1 class="calendar-title"><?php esc_html_e( 'Booking calendar', 'wp-hotelier' ); ?></h1>
-	<a class="add-new-reservation-bagde" href="admin.php?page=hotelier-add-reservation">Add new</a>
+	<a class="calendar-bagde" id="add-new-reservation-bagde" href="admin.php?page=hotelier-add-reservation">Add new</a>
+	<a class="calendar-bagde" id="change-prize-badge" href="edit.php?post_type=room" target="_blank">Change room prices</a>
 
 	<?php
 	$classes = array();

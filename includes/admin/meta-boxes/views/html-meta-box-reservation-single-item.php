@@ -19,9 +19,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</td>
 	<td class="name">
 		<?php if ( $_room ) : ?>
-			<a target="_blank" href="<?php echo esc_url( admin_url( 'post.php?post=' . absint( $_room->id ) . '&action=edit' ) ); ?>">
-				<?php echo esc_html( $item[ 'name' ] ); ?>
-			</a>
+			<div class="name-container-default">
+				<div>
+					<a target="_blank" class="room-name" data-room_id="<?php echo $_room->id ?>" href="<?php echo esc_url( admin_url( 'post.php?post=' . absint( $_room->id ) . '&action=edit' ) ); ?>">
+						<?php echo esc_html( $item[ 'name' ] ); ?>
+					</a>
+				</div>
+				<!--
+				<div>
+					<a href="#" class="edit-room edit-room-icon"><i class="dashicons dashicons-edit"></i></a>
+				</div>
+			-->
+			</div>
+			<div class="name-container-edit">
+				<div class="add-new-room-row" data-key="0">
+					<?php echo htl_get_list_of_rooms_html( 'new-room' ); ?>
+					<input type="number" name="new-room-quantity" value="<?php echo $item[ 'qty' ] ?>" >
+				</div>
+				<div>
+					<a href="#" class="edit-room save-room-icon"><i class="dashicons dashicons-yes"></i></a>
+				</div>
+			</div>
 			<?php if ( isset( $item[ 'rate_name' ] ) ) : ?>
 				<span><?php echo esc_html__( 'Rate', 'wp-hotelier' ) . ': '; ?><span class="rate"><?php echo htl_get_formatted_room_rate( $item[ 'rate_name' ] ); ?></span></span>
 			<?php else : ?>
@@ -72,7 +90,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<?php endfor; ?>
 		<?php endif; ?>
-
 	</td>
 	<td class="guests">
 	<?php

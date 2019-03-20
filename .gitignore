@@ -182,3 +182,4 @@ dist
 .tmp
 .npmrc
 *.min.*
+wp-hotelier.sublime-project

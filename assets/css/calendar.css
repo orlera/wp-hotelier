@@ -6,7 +6,15 @@
   z-index: 5 !important;
 }
 
-.add-new-reservation-bagde {
+#add-new-reservation-badge {
+
+}
+
+#change-prize-badge {
+ float: right;
+}
+
+.calendar-bagde {
   margin-left: 10px;
   border-radius: 8px;
   background-color: #bcbec1;
@@ -15,7 +23,7 @@
   padding: 2px;
 }
 
-.add-new-reservation-bagde:hover {
+.calendar-bagde:hover {
   color: #bcbec1;
   background-color: white;
 }
